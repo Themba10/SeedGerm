@@ -1,0 +1,74 @@
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    float: left;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Content */
+.content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.content h2 {
+    margin-top: 0;
+}
+
+/* Live Section */
+.charts {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.chart {
+    width: calc(33.33% - 20px);
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.chart h3 {
+    margin-top: 0;
+}
+
+/* Status Section */
+.status-container {
+    margin-top: 20px;
+}
+
+.status-container h3 {
+    margin-top: 0;
+}
+
+/* Settings Section */
+.settings-container {
+    margin-top: 20px;
+}
+
+.settings-container h3 {
+    margin-top: 0;
+}
+
+.settings-container form {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural Dashboard - Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/justgage@2.1.4"></script>
+
+  <style>
+    body {
+      background-color: #F8F9FA;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #343A40;
+      color: #FFFFFF;
+    }
+
+    .sidebar .brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .sidebar ul.navbar-nav {
+      margin-top: 30px;
+    }
+
+    .sidebar ul.navbar-nav li.nav-item {
+      padding: 10px;
+    }
+
+    .sidebar ul.navbar-nav li.nav-item a.nav-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      display: block;
+    }
+
+    .sidebar ul.navbar-nav li.nav-item a.nav-link:hover {
+      background-color: #495057;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: #28A745;
+      color: #FFFFFF;
+      font-weight: bold;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table th,
+    .table td {
+      border-top: none;
+    }
+
+    .logout-btn {
+      background-color: #28A745;
+      border-color: #28A745;
+    }
+
+    .logout-btn:hover {
+      background-color: #218838;
+      border-color: #218838;
+    }
+
+    .regulate-btn {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .regulate-btn button {
+      background-color: #28A745;
+      border-color: #28A745;
+    }
+
+    .regulate-btn button:hover {
+      background-color: #218838;
+      border-color: #218838;
+    }
+
+    #water-gauge {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .water-level-chart {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="brand">Seed Germination System</div>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#view-table-data">View Table Data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#check-water-level">Check Water Level</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#settings">Settings</a>
+      </li>
+    </ul>
+    <a href="/" class="btn btn-primary logout-btn mt-4 ml-3">Logout</a>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <div class="card-header">Dashboard</div>
+      <div class="card-body">
+        <h2>Welcome, {{ user_data['username'] }}</h2>
+
+        <div id="view-table-data" class="d-none">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Soil Temperature</th>
+                <th>Moisture</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in table_data %}
+              <tr>
+                <td>{{ data['soil_temperature'] }}</td>
+                <td>{{ data['moisture'] }}</td>
+                <td>{{ data['timestamp'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="check-water-level" class="d-none">
+          <div class="water-level-chart">
+            <!-- Include your water level chart here -->
+          </div>
+          <form method="post" action="/control_relay">
+            <div class="regulate-btn">
+              <button id="relayButton" class="btn btn-primary">Regulate System</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="contact" class="d-none">
+          <p>Email: info@yourcompany.com</p>
+          <p>Phone: +1 123-456-7890</p>
+        </div>
+
+        <div id="settings" class="d-none">
+          <h3>Settings</h3>
+          <form method="post" action="/update_password">
+            <div class="form-group">
+              <label for="old-password">Old Password</label>
+              <input type="password" class="form-control" id="old-password" name="old_password" required>
+            </div>
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input type="password" class="form-control" id="new-password" name="new_password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm New Password</label>
+              <input type="password" class="form-control" id="confirm-password" name="confirm_password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+
+          <form method="post" action="/update_contact">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{ user_data['email'] }}"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" class="form-control" id="phone" name="phone" value="{{ user_data['phone'] }}"
+                required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Contact Details</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle visibility of sections based on the clicked link in the sidebar
+    $('.sidebar ul.navbar-nav li.nav-item a.nav-link').click(function (e) {
+      e.preventDefault();
+      var target = $(this).attr('href');
+      $('.content > div').addClass('d-none');
+      $(target).removeClass('d-none');
+    });
+  </script>
+</body>
+
+</html>

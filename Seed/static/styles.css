@@ -1,0 +1,106 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Index Page Styles */
+  .hero {
+    background-image: url('/images/markus-spiske-vrbZVyX2k4I-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 24px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #28A745;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #218838;
+  }
+  
+  /* Login and Register Page Styles */
+  .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .register-btn {
+    background-color: #28A745;
+    border-color: #28A745;
+  }
+  
+  .register-btn:hover {
+    background-color: #218838;
+    border-color: #218838;
+  }
+  
+  /* Dashboard Page Styles */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+  }
+  
+  .logout-btn {
+    padding: 10px 20px;
+    background-color: #28A745;
+    border-color: #28A745;
+  }
+  
+  .logout-btn:hover {
+    background-color: #218838;
+    border-color: #218838;
+  }
+  

@@ -1,0 +1,50 @@
+
+Certainly! Here are the templates for reset_password_success.html, reset_password.html, reset_failure.html, and reset_success.html
+
+reset_password_success.html
+
+html
+Copy code
+!DOCTYPE html
+html
+head
+  titlePassword Reset Successtitle
+head
+body
+  h1Password Reset Successfulh1
+  pYour password has been successfully reset. You can now log in with your new password.p
+body
+html
+reset_password.html
+
+html
+Copy code
+!DOCTYPE html
+html
+head
+  titleReset Passwordtitle
+head
+body
+  h1Reset Passwordh1
+  pPlease enter your new password below.p
+  form action={{ url_for('reset_password', token=token) }} method=POST
+    input type=password name=new_password placeholder=Enter your new password
+    button type=submitReset Passwordbutton
+  form
+body
+html
+reset_failure.html
+
+html
+Copy code
+!DOCTYPE html
+html
+head
+  titlePassword Reset Failuretitle
+head
+body
+  h1Password Reset Failedh1
+  pSorry, we couldn't find a user with that email address. Please try again.p
+body
+html
+reset_success.html

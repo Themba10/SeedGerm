@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Dashboard - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #F8F9FA;
+        }
+
+        .navbar {
+            background-color: #28A745;
+        }
+
+        .navbar-brand {
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .navbar-brand:hover {
+            color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 400px;
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #28A745;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .btn-suggestions {
+            margin-top: 10px;
+        }
+
+        .suggestions-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .suggestions-list li {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #FF0000;
+        }
+
+        .register-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Seed Germination System Dashboard</a>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Register</div>
+            <div class="card-body">
+<!-- Registration Form -->
+<form method="POST" action="/register">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+    </div>
+    <!-- Confirm Password -->
+    <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+    </div>
+    <!-- Valid Password Warnings -->
+    <div id="password-warnings" class="text-danger"></div>
+    <!-- Register Button -->
+    <button id="register-btn" type="submit" class="btn btn-primary" disabled>Register</button>
+</form>
+
+<!-- Script -->
+<script>
+    // Get the form elements
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const registerBtn = document.getElementById('register-btn');
+    const passwordWarnings = document.getElementById('password-warnings');
+
+    // Validate password requirements
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const warnings = validatePassword(password);
+        passwordWarnings.innerHTML = warnings;
+        registerBtn.disabled = warnings !== '';
+    });
+
+    // Function to validate password requirements
+    function validatePassword(password) {
+        // Regular expressions for validation
+        const regexLength = /.{8,}/;  // Minimum length of 8 characters
+        const regexUpperCase = /[A-Z]/;  // At least one uppercase letter
+        const regexLowerCase = /[a-z]/;  // At least one lowercase letter
+        const regexDigit = /\d/;  // At least one digit
+
+        // Check each requirement
+        let warnings = '';
+        if (!regexLength.test(password)) {
+            warnings += 'Password should have at least 8 characters.<br>';
+        }
+        if (!regexUpperCase.test(password)) {
+            warnings += 'Password should contain at least one uppercase letter.<br>';
+        }
+        if (!regexLowerCase.test(password)) {
+            warnings += 'Password should contain at least one lowercase letter.<br>';
+        }
+        if (!regexDigit.test(password)) {
+            warnings += 'Password should contain at least one digit.<br>';
+        }
+        return warnings;
+    }
+</script>
+</body>
+</html>

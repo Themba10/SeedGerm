@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Germination Dashboard - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        body {
+            background-color: #F8F9FA;
+        }
+
+        .navbar {
+            background-color: #28A745;
+        }
+
+        .navbar-brand {
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .navbar-brand:hover {
+            color: #FFFFFF;
+        }
+
+        .jumbotron {
+            background-image: url('/images/jen-theodore-Tys0QOcdbBA-unsplash.jpg');
+            background-size: cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .jumbotron h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #28A745;
+            border-color: #28A745;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .footer {
+            background-color: #28A745;
+            color: #FFFFFF;
+            padding: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Seed Germination System</a>
+        <a class="nav-link" href="/contacts">Contacts</a>
+    </nav>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Welcome to the Seed Germination System Dashboard.</h1>
+            <p>Monitor and manage your seedlings with ease.&#128077;</p>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>Register or Log in</h2>
+                <p>Register or log in to Seed Germination System Dashboard.</p>
+                <a href="/register" class="btn btn-primary btn-lg">Register</a>
+                <a href="/login" class="btn btn-primary btn-lg">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 Seed Germination System Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

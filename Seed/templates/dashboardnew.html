@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Sidebar</h2>
+        <ul>
+            <li><a href="#live">Live</a></li>
+            <li><a href="#status">Status</a></li>
+            <li><a href="#settings">Settings</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Live Section -->
+        <section id="live">
+            <h2>Live</h2>
+            <div class="charts">
+                <!-- Water Level Chart -->
+                <div class="chart">
+                    <h3>Water Level</h3>
+                    <canvas id="water-level-chart"></canvas>
+                </div>
+                <!-- Soil Temperature Chart -->
+                <div class="chart">
+                    <h3>Soil Temperature</h3>
+                    <canvas id="soil-temperature-chart"></canvas>
+                </div>
+                <!-- Moisture Chart -->
+                <div class="chart">
+                    <h3>Moisture</h3>
+                    <canvas id="moisture-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section id="status">
+            <h2>Status</h2>
+            <div class="status-container">
+                <h3>Pump Control</h3>
+                <form id="pump-form" method="POST" action="/control_pump">
+                    <label for="pump-status">Pump Status:</label>
+                    <input type="checkbox" id="pump-status" name="pump_status" {% if pump_status == 'on' %}checked{% endif %}>
+                    <button type="submit">Toggle Pump</button>
+                </form>
+                <div id="pump-message"></div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings">
+            <h2>Settings</h2>
+            <div class="settings-container">
+                <h3>Change Email</h3>
+                <form id="change-email-form" method="POST" action="/change_email">
+                    <label for="new-email">New Email:</label>
+                    <input type="email" id="new-email" name="new_email" required>
+                    <button type="submit">Change Email</button>
+                </form>
+
+                <h3>Change Password</h3>
+                <form id="change-password-form" method="POST" action="/change_password">
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new_password" required>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

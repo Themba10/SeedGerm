@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Dashboard - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@2.1.4"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #F8F9FA;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #28A745;
+        }
+
+        .navbar-brand {
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .navbar-brand:hover {
+            color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #28A745;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .sensor-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sensor-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .sensor-value {
+            font-size: 24px;
+            color: #28A745;
+        }
+
+        .water-level-container {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .water-level-bar {
+            width: 150px;
+            height: 300px;
+            background-color: #28A745;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .water-level {
+            width: 100%;
+            background-color: #FFFFFF;
+            transition: height 0.3s ease-in-out;
+        }
+
+        .timestamp {
+            color: #6C757D;
+        }
+
+        .logout-btn {
+            background-color: #28A745;
+            border-color: #28A745;
+        }
+
+        .logout-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .regulate-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .regulate-btn button {
+            background-color: #28A745;
+            border-color: #28A745;
+        }
+
+        .regulate-btn button:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .toggle {
+            width: 100px;
+            height: 50px;
+            background-color: #ccc;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .active {
+            background-color: #00ff00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">Seed Germination System Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/contacts">Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">Settings</a>
+                </li>
+            </ul>
+            <a href="/logout" class="btn btn-primary logout-btn">Logout</a>
+        </div>
+    </nav>
+    <!-- Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Dashboard</div>
+            <div class="card-body">
+                <h2>Welcome, {{ username }}</h2>
+
+                <div class="sensor-container">
+                    <div class="sensor-label">Soil Temperature:</div>
+                    <div class="sensor-value">{{ sensor_readings.soil_temperature }}&deg;C</div>
+                </div>
+
+                <div class="sensor-container">
+                    <div class="sensor-label">Moisture:</div>
+                    {% if sensor_readings.moisture|float < 5 %}
+                        <div class="sensor-value" style="color: red;">It's too dry</div>
+                    {% elif sensor_readings.moisture|float < 50 %}
+                        <div class="sensor-value" style="color: black;">Just okay</div>
+                    {% else %}
+                        <div class="sensor-value" >Moisture is perfect</div>
+                    {% endif %}
+                </div>
+                
+                <div class="water-level-container">
+                    <div class="sensor-label">Water Level:</div>
+                    <div class="progress" style="height: 30px; width:500px;">
+                        <div class="progress-bar {% if sensor_readings.water_level|float < 2.54 %}
+                                                    bg-success
+                                                {% elif sensor_readings.water_level|float > 6.76 %}
+                                                    bg-danger
+                                                {% else %}
+                                                    bg-warning
+                                                {% endif %}"                
+                             role="progressbar"    
+                             style="width: {% if sensor_readings.water_level|float < 2.54 %}                                   
+                                            100%
+                                        {% elif sensor_readings.water_level|float > 6.76 %}
+                                            0%
+                                        {% else %}
+                                            {{ (2.54 - sensor_readings.water_level|float) / (2.54 - 6.76) * 90 + 10}}%
+                                        {% endif %}">
+                             
+                             {% if sensor_readings.water_level|float < 2.54 %}
+                                 Excellent
+                             {% elif sensor_readings.water_level|float > 6.76 %}
+                                 Low
+                             {% else %}
+                                 Okay
+                             {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timestamp">{{ sensor_readings.timestamp }}</div>
+                
+                {% if sensor_readings.water_level|float > 6.76 %}
+                    <p style="color: red;">The water level is running low. Please refill.</p>
+                {% elif sensor_readings.water_level|float < 2.55 %}
+                    <p style="color: green;">The water level is running Excellent. keep it Green!</p>
+                {% else %}
+                    <p>The water level is getting low. Consider refilling.</p>
+                {% endif %}
+                
+                <div class="regulate-btn">
+                    {% if sensor_readings.moisture|float < 50%}
+                        <form>
+                            <button class="btn btn-primary" onclick="turnOnRelay()">Water</button>
+                            <p id="relayState"></p>
+                        </form>
+                    {% else %}
+                        <p>Soil Moisture is at a Good state.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="waterLevelLowModal" tabindex="-1" role="dialog" aria-labelledby="waterLevelLowModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="waterLevelLowModalLabel">Water Level Low!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The water level is running low. Please refill the water tank.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+function turnOnRelay() {
+    fetch('/relay/on', { method: 'POST' })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('relayState').innerText = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function turnOffRelay() {
+    fetch('/relay/off', { method: 'POST' })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('relayState').innerText = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+</script>
+</body>
+
+</html>
+
+

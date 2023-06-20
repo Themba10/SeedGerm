@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Dashboard - Contacts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Seed Germination System Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings">Settings</a>
+                </li>
+            </ul>
+
+            <a href="/logout" class="btn btn-primary logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">
+        <h2>Contacts</h2>
+        
+        <p>For more information, please reach us on the following contact accounts:</p>
+
+        <ul>
+            <li>
+               <div class="row">
+                   <div class="col-md-1">
+                        <lable>Email</label>
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-4">
+                        mesokatlego16@gmail.com
+                    </div>
+               </div>
+            </li>
+            <li>
+                <div class="row">
+                   <div class="col-md-1">
+                        <lable>Instagram</label>
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-4">
+                        manny_maneuver
+                    </div>
+               </div>
+            </li>
+            <li>
+                <div class="row">
+                   <div class="col-md-1">
+                        <lable>Call</label>
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-4">
+                        0799882521
+                    </div>
+               </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

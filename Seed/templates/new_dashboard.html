@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Dashboard - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@2.1.4"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #F8F9FA;
+        }
+
+        .navbar {
+            background-color: #28A745;
+        }
+
+        .navbar-brand {
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .navbar-brand:hover {
+            color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #28A745;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            border-top: none;
+        }
+
+        .logout-btn {
+            background-color: #28A745;
+            border-color: #28A745;
+        }
+
+        .logout-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .regulate-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .regulate-btn button {
+            background-color: #28A745;
+            border-color: #28A745;
+        }
+
+        .regulate-btn button:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        #water-gauge {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Seed Germination System Dashboard</a>
+        <a href="/logout" class="btn btn-primary logout-btn">Logout</a>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Dashboard</div>
+            <div class="card-body">
+                <h2>Welcome, {{ user_data['username'] }}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Soil Temperature</th>
+                            <th>Moisture</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in table_data %}
+                        <tr>
+                            <td>{{ data.soil_temperature }}&deg;C</td>
+                            <td>{{ data.moisture }}%</td>
+                            <td>{{ data.timestamp }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <form method="post" action="/control_relay">
+                    <div class="toggle-btn">
+                        <button id="relayButton onclick="toggleRelay()" class="btn btn-primary">Regulate Temperature</button>
+                    </div>
+                </form>
+                <!-- Water_level Graphical-scale -->
+                {% if water_level %}
+                    <div>
+                        <h3>Water Level</h3>
+                        <div class="graphical-scale">
+                            {% if water_level <= 30 %}
+                                <div class="low">Low</div>
+                                <div class="Okay">Okay</div>
+                                <div class="excellent">Excellent</div>
+                            {% elif water_level <= 70 %}
+                                <div class="okay">Okay</div>
+                                <div class="low">Low</div>
+                                <div class="excellent">Excellent</div>
+                            {% else %}
+                                <div class="excellent">Excellent</div>
+                                <div class="Okay">Okay</div>
+                                <div class="low">Low</div
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}    
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+            function toggleRelay() {
+                $.get("/toggle");
+                }
+
+            // Get the container element for the water gauge
+            var waterGaugeContainer = document.getElementById("water-gauge");
+
+            // Define the options for the water gauge
+            var waterGaugeOptions = {
+                value: 2.54,  // The initial value
+                min: 2.54,    // The minimum value
+                max: 6.76,    // The maximum value
+                donut: true,
+                gaugeWidthScale: 0.4,
+                counter: true,
+                relativeGaugeSize: true,
+                symbol: " cm", // The unit symbol
+                title: "Water Level", // The title of the gauge
+                levelColorsGradient: false,
+                levelColors: ["#0000FF", "#FF0000"], // Blue and Red color for levels
+                levelColorsThreshold: [2.54, 6.76], // Threshold values for color change
+                label: function(value) {
+                    if (value >= 6.76) {
+                        return "Low";
+                    } else if (value <= 2.54) {
+                        return "Excellent";
+                    } else {
+                        return "Okay";
+                    }
+                }
+            };
+
+            // Create the water gauge
+            var waterGauge = new JustGage({
+                id: "water-gauge",
+                options: waterGaugeOptions
+            });
+
+            // Update the water gauge value dynamically
+            function updateWaterLevel(value) {
+                waterGauge.refresh(value);
+            }
+
+            // Example usage: Call the updateWaterLevel function with a new value
+            // updateWaterLevel(4.5); // Replace 4.5 with the actual water level value from your Raspberry Pi
+        });
+    </script>
+</body>
+</html>
