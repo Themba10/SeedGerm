@@ -23,6 +23,7 @@ jobs:
       
       - name: Deploy to Firebase Hosting
         run: |
-          firebase login --no-localhost --token "$FIREBASE_TOKEN"
-          firebase use --token "$FIREBASE_TOKEN" # Specify your Firebase project ID or alias
-          firebase deploy --token "$FIREBASE_TOKEN" --only hosting
+          firebase login --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase use --token "${{ secrets.FIREBASE_TOKEN }}" # Specify your Firebase project ID or alias
+          firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --only hosting
+
